@@ -42,23 +42,7 @@
                     var value = $('#checkableGrid input:checked[name="ids"]');
                     var contactId = value[0].attributes.value.value.toString();
 
-                    $.ajax({
-                        url: "/Contact/Edit",
-                        dataType: "json",
-                        type: "POST",
-                        contentType: 'application/json; charset=utf-8',
-                        cache: false,
-                        data: '{ id:' + contactId + '}',
-                        success: function (data) {
-
-                            if (data.success) {
-                                alert(data.message);
-                            }
-                        },
-                        error: function (xhr) {
-                            alert('error');
-                        }
-                    });
+                    location.href = '/Contact/Edit/' + contactId;
                 }
                 else {
                     alert("Выберите один контакт для редактирования.");
@@ -86,10 +70,6 @@
                             cache: false,
                             data: '{ id:' + contactId + '}',
                             success: function (data) {
-
-                                if (data.success) {
-                                    alert(data.message);
-                                }
                                 window.location.reload();
                             },
                             error: function (xhr) {

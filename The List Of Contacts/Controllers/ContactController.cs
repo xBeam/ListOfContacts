@@ -91,24 +91,22 @@ namespace The_List_Of_Contacts.Controllers
         //
         // GET: /Contact/Edit/5
 
-        //public ActionResult Edit(int id = 0)
-        //{
-        //    Contact contact = db.Contacts.Find(id);
-        //    if (contact == null)
-        //    {
-        //        return HttpNotFound();
-        //    }
-        //    return View(contact);
-        //}
+        public ActionResult Edit(int id = 0)
+        {
+            Contact contact = db.Contacts.Find(id);
+            if (contact == null)
+            {
+                return HttpNotFound();
+            }
+            return View(contact);
+        }
 
         //
         // POST: /Contact/Edit/5
 
         [HttpPost]
-        //[ValidateAntiForgeryToken]
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit(Contact contact)
         {
-            Contact contact = db.Contacts.Find(id);
             if (ModelState.IsValid)
             {
                 db.Entry(contact).State = EntityState.Modified;
@@ -135,13 +133,11 @@ namespace The_List_Of_Contacts.Controllers
         // POST: /Contact/Delete/5
 
         [HttpPost, ActionName("Delete")]
-        //[ValidateAntiForgeryToken]
         public void DeleteConfirmed(int id = 0)
         {
             Contact contact = db.Contacts.Find(id);
             db.Contacts.Remove(contact);
             db.SaveChanges();
-            //return RedirectToAction("Index");
         }
 
         protected override void Dispose(bool disposing)
