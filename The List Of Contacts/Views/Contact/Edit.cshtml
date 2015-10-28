@@ -1,0 +1,76 @@
+﻿@model The_List_Of_Contacts.Models.Contact
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Редактирование контакта</h2>
+<p></p>
+
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    @Html.ValidationSummary(true)
+
+    <fieldset>
+        <legend>Contact</legend>
+
+        @Html.HiddenFor(model => model.Id)
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.ContactNumber, "Номер")
+        </div>
+        <div class="editor-field">
+            @Html.TextBoxFor(model => model.ContactNumber, new { @readonly = "readonly" })
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Name, "Имя")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.SecondName, "Отчество")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.SecondName)
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.LastName, "Фамилия *")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.LastName)
+            @Html.ValidationMessageFor(model => model.LastName, "Введите фамилию")
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.PhoneNumber, "Номер телефона *")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PhoneNumber)
+            @Html.ValidationMessageFor(model => model.PhoneNumber, "Введите корректный телефон")
+        </div>
+
+        <div class="editor-label">
+            @Html.LabelFor(model => model.Email, "Почта *")
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Email)
+            @Html.ValidationMessageFor(model => model.Email, "Введите корректный Email")
+        </div>
+
+        <p>
+            <input type="submit" value="Сохранить" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Вернуться к списку", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

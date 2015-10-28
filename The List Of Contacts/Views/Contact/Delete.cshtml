@@ -1,0 +1,62 @@
+﻿@model The_List_Of_Contacts.Models.Contact
+
+@{
+    ViewBag.Title = "Delete";
+}
+
+<h2>Удаление</h2>
+<p></p>
+<h3>Вы уверены, что хотите удалить контакт?</h3>
+<p></p>
+<fieldset>
+    <legend>Contact</legend>
+
+    <div class="display-label">
+       @Html.LabelFor(model => model.ContactNumber, "Номер")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ContactNumber)
+    </div>
+
+    <div class="display-label">
+        @Html.LabelFor(model => model.Name, "Имя")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Name)
+    </div>
+    <p></p>
+    <div class="display-label">
+        @Html.LabelFor(model => model.SecondName, "Отчество")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.SecondName)
+    </div>
+    <p></p>
+    <div class="display-label">
+        @Html.LabelFor(model => model.LastName, "Фамилия")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.LastName)
+    </div>
+    <p></p>
+    <div class="display-label">
+        @Html.LabelFor(model => model.PhoneNumber, "Номер телефона")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.PhoneNumber)
+    </div>
+    <p></p>
+    <div class="display-label">
+        @Html.LabelFor(model => model.Email, "Почта")
+    </div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.Email)
+    </div>
+</fieldset>
+@using (Html.BeginForm()) {
+    @Html.AntiForgeryToken()
+    <p>
+        <input type="submit" value="Удалить" /> |
+        @Html.ActionLink("Вернуться к списку", "Index")
+    </p>
+}

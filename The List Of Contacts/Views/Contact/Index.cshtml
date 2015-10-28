@@ -1,0 +1,178 @@
+﻿@model IEnumerable<The_List_Of_Contacts.Models.Contact>
+
+@{
+    ViewBag.Title = "The Contact List";
+    var grid = new WebGrid(source: Model, rowsPerPage: 20);
+}
+
+<div class="float-left">
+    <nav>
+        <ul id="menu">
+            <li>@Html.ActionLink("Создать", "Create", "Contact")</li>
+            <li><a href="/Contact/Edit" id="editUrl">Изменить</a></li>
+            <li><a href="/Contact/DeleteConfirmed" id="deleteUrl">Удалить</a></li>
+        </ul>
+    </nav>
+</div>
+
+@grid.GetHtml(tableStyle: "grid",
+              headerStyle: "header",
+              rowStyle: "row",
+              alternatingRowStyle: "alt-row",
+              footerStyle: "footer",
+              htmlAttributes: new { id = "checkableGrid", cellpadding = "6px", cellspacing = "0px", },
+              columns: grid.Columns(
+                grid.Column(format: @<text> <input type="checkbox" value="@item.Id" id="ids" name="ids"> </text>),
+                    grid.Column(columnName: "ContactNumber", header: "Номер"),
+                    grid.Column(columnName: "Name", header: "Имя"),
+                    grid.Column(columnName: "SecondName", header: "Отчество"),
+                    grid.Column(columnName: "LastName", header: "Фамилия"),
+                    grid.Column(columnName: "PhoneNumber", header: "Телефон"),
+                    grid.Column(columnName: "Email", header: "Почта")
+                    )
+                  )
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $(editUrl).click(function () {
+                var chbLength = $("#checkableGrid td :checkbox:checked").length;
+                
+                if (chbLength > 0 && chbLength < 2) {
+                    var value = $('#checkableGrid input:checked[name="ids"]');
+                    var contactId = value[0].attributes.value.value.toString();
+
+                    $.ajax({
+                        url: "/Contact/Edit",
+                        dataType: "json",
+                        type: "POST",
+                        contentType: 'application/json; charset=utf-8',
+                        cache: false,
+                        data: '{ id:' + contactId + '}',
+                        success: function (data) {
+
+                            if (data.success) {
+                                alert(data.message);
+                            }
+                        },
+                        error: function (xhr) {
+                            alert('error');
+                        }
+                    });
+                }
+                else {
+                    alert("Выберите один контакт для редактирования.");
+                }
+               
+                return false;
+            });
+        });
+
+        $(document).ready(function () {
+            $(deleteUrl).click(function () {
+                var chbLength = $("#checkableGrid td :checkbox:checked").length;
+
+                if (chbLength > 0 && chbLength < 2) {
+                    var value = $('#checkableGrid input:checked[name="ids"]');
+                    var contactId = value[0].attributes.value.value;
+                    var conf = confirm("Вы уверены, что хотите удалить контакт?");
+
+                    if (conf) {
+                        $.ajax({
+                            url: "/Contact/Delete",
+                            dataType: "json",
+                            type: "POST",
+                            contentType: 'application/json; charset=utf-8',
+                            cache: false,
+                            data: '{ id:' + contactId + '}',
+                            success: function (data) {
+
+                                if (data.success) {
+                                    alert(data.message);
+                                }
+                                window.location.reload();
+                            },
+                            error: function (xhr) {
+                                alert('error');
+                            }
+                        });
+                    }
+                }
+                else {
+                    alert("Выберите один контакт для удаления.");
+                }
+
+                return false;
+            });
+        });
+</script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+@*<table>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.ContactNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SecondName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.PhoneNumber)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Email)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ContactNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SecondName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Email)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>*@
